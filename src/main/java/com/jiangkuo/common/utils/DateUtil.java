@@ -6,54 +6,46 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-	/*
-	* 方法1:
-	* 给一个时间对象，返回该时间所在月的1日0时0分0秒。例如一个Date对象的值是2019-05-18 11:37:22
-	* 则返回的结果为2019-05-01 00:00:00
-	*/
+	/**
+	 * 日期处理类.返回指定日期的月初或月末
+	 * @ClassName: DateUtil 
+	 * @Description: TODO
+	 * @author: 姜阔
+	 * @date: 2019年5月17日 下午3:13:57
+	 */
+	// 根据传入的参数获取该日期的开始日期（1.1)
+	public static String getDateByInitMonth(Date str) {
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//获取当前系统的Calendar对象
+		Calendar calendar=Calendar.getInstance();
+		//根据传入的日期初始化Calendar
+		calendar.setTime(str);
+		//让当前日期从1号开始
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR_OF_DAY,0);
+		calendar.set(Calendar.MINUTE,0);
+		calendar.set(Calendar.SECOND,0);
+		//获取日期类的日期格式化并返回
+		Date time=calendar.getTime();
+		return format.format(time);		
+	}
 	
-	public static String getStart(String date){
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar c= getCalendar(date);
-		c.set(Calendar.DAY_OF_MONTH, 1);
-		c.set(Calendar.HOUR_OF_DAY,0);
-		c.set(Calendar.MINUTE,0);
-		c.set(Calendar.SECOND,0);
-		Date time=c.getTime();
-		return f.format(time);
-	}
-	/*
-	* 方法2：
-	* 给一个时间对象，返回该时间所在月的最后日23时59分59秒，需要考虑月大月小和二月特殊情况。
-	* 例如一个Date对象的值是2019-05-18 11:37:22，则返回的时间为2019-05-31 23:59:59
-	* 例如一个Date对象的值是2019-02-05 15:42:18，则返回的时间为2019-02-28 23:59:59
-	*/
-
-	public static String getEnd(String date) {
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar c= getCalendar(date);
-		c.add(Calendar.MONTH, 1);
-		c.set(Calendar.DAY_OF_MONTH,0);
-		c.set(Calendar.HOUR_OF_DAY,23);
-		c.set(Calendar.MINUTE,59);
-		c.set(Calendar.SECOND,59);
-		Date time=c.getTime();
-		return f.format(time);
-		
-	}
-	private static Calendar getCalendar(String date) {
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar c=Calendar.getInstance();
-		if(null!=date&&date.length()>0) {
-			try {
-				Date date2=f.parse(date);
-				c.setTime(date2);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	// 根据传入的参数获取该日期的结束日期（1.30）
+		public static String getDateByFullMonth(Date str) {
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			//获取当前系统的Calendar对象
+			Calendar calendar=Calendar.getInstance();
+			//根据传入的日期初始化Calendar
+			calendar.setTime(str);
+			//让当前的月份+1
+			calendar.add(Calendar.MONTH, 1);
+			//设置当前月份的日期为上个月的最后一天
+			calendar.set(Calendar.DAY_OF_MONTH, 0);
+			calendar.set(Calendar.HOUR_OF_DAY,23);
+			calendar.set(Calendar.MINUTE,59);
+			calendar.set(Calendar.SECOND,59);
+			//获取日期类的日期格式化并返回
+			Date time=calendar.getTime();
+			return format.format(time);		
 		}
-		return c;
-	}
-
 }

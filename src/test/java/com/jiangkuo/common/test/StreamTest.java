@@ -1,29 +1,38 @@
 package com.jiangkuo.common.test;
 
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
 
-import com.jiangkuo.common.utils.FileUtil;
 import com.jiangkuo.common.utils.StreamUtil;
 
 public class StreamTest {
-	private static final String i = null;
-	private InputStream txtFile;
 
-	//测试StreamUtil工具类中readTextFile(输入文件文件参数)方法
-	//并输出文件的内容
 	@Test
-	public void test() {
-		StreamUtil.closeAll(i);
-		
-		System.out.println(i);
+	public void testCloseAll() throws FileNotFoundException {
+		FileInputStream inputStream = new FileInputStream("");
+		FileInputStream inputStream2 = new FileInputStream("");
+		StreamUtil.closeAll(inputStream,inputStream2);
 	}
+
 	@Test
-	public void test2() {
-		StreamUtil.readTextFile(txtFile);
-		
-		System.out.println(txtFile);
+	public void testReadTextFileInputStream() throws FileNotFoundException, IOException {
+		File srcFile = new File("C:\\pic\\abc.txt");
+
+		String string = StreamUtil.readTextFile(new FileInputStream(srcFile));
 	}
-	
+
+	@Test
+	public void testReadTextFileFile() throws FileNotFoundException, IOException {
+		File srcFile = new File("C:\\pic\\abc.txt");
+		String file = StreamUtil.readTextFile(srcFile);
+		System.out.println(file);
+	}
+
 }
